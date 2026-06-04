@@ -25,3 +25,7 @@ npm run dev
 cd backend
 ./mvnw spring-boot:run
 ```
+
+## License
+
+Licensed under the [Apache License 2.0](./LICENSE).
