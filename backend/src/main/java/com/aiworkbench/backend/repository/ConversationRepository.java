@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface ConversationRepository extends JpaRepository<Conversation, Long> {
 
-	List<Conversation> findByUserIdOrderByUpdatedAtDesc(Long userId);
+	List<Conversation> findByCreatedByOrderByUpdatedAtDesc(Long createdBy);
 
 	List<Conversation> findByProjectIdOrderByUpdatedAtDesc(Long projectId);
 }

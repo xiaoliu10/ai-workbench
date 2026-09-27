@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Builder
@@ -29,44 +29,33 @@ public class Project {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	/**
-	 * 业务编号，如 PROJ-2026-001
-	 */
 	@Column(nullable = false, unique = true, length = 30)
 	private String projectCode;
 
-	@Column(nullable = false, length = 200)
+	@Column(nullable = false, length = 128)
 	private String name;
 
 	@Column(columnDefinition = "TEXT")
 	private String description;
 
-	/**
-	 * 状态
-	 */
-	@Column(nullable = false, length = 20)
+	@Column(name = "owner_id", nullable = false)
+	private Long ownerId;
+
+	@Column(nullable = false, length = 32)
 	@Enumerated(EnumType.STRING)
 	@Builder.Default
-	private ProjectStatus status = ProjectStatus.PLANNING;
-
-	/**
-	 * 负责人 ID
-	 */
-	@Column(name = "owner_id")
-	private Long ownerId;
+	private ProjectStatus status = ProjectStatus.ACTIVE;
 
 	@CreationTimestamp
 	@Column(name = "created_at", nullable = false, updatable = false)
-	private LocalDateTime createdAt;
+	private OffsetDateTime createdAt;
 
 	@UpdateTimestamp
 	@Column(name = "updated_at", nullable = false)
-	private LocalDateTime updatedAt;
+	private OffsetDateTime updatedAt;
 
 	public enum ProjectStatus {
-		PLANNING,       // 规划中
-		IN_PROGRESS,    // 进行中
-		COMPLETED,      // 已完成
-		ARCHIVED        // 已归档
+		ACTIVE,
+		ARCHIVED
 	}
 }

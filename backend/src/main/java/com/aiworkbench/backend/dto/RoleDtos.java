@@ -3,7 +3,7 @@ package com.aiworkbench.backend.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -22,8 +22,8 @@ public final class RoleDtos {
 			Integer sortOrder,
 			Integer status,
 			List<MenuBrief> menus,
-			LocalDateTime createdAt,
-			LocalDateTime updatedAt
+			OffsetDateTime createdAt,
+			OffsetDateTime updatedAt
 	) {}
 
 	public record MenuBrief(

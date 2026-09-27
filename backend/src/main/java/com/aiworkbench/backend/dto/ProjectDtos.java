@@ -2,7 +2,7 @@ package com.aiworkbench.backend.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public final class ProjectDtos {
 
@@ -16,8 +16,8 @@ public final class ProjectDtos {
 			String status,
 			Long ownerId,
 			String ownerName,
-			LocalDateTime createdAt,
-			LocalDateTime updatedAt
+			OffsetDateTime createdAt,
+			OffsetDateTime updatedAt
 	) {}
 
 	public record CreateProjectRequest(

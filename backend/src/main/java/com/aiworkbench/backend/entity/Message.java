@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Builder
@@ -33,14 +33,22 @@ public class Message {
 	@JoinColumn(name = "conversation_id", nullable = false)
 	private Conversation conversation;
 
-	/**
-	 * 角色: user, assistant, system
-	 */
-	@Column(nullable = false, length = 20)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_message_id")
+	private Message parentMessage;
+
+	@Column(nullable = false, length = 16)
 	private String role;
 
-	@Column(nullable = false, columnDefinition = "TEXT")
+	@Column(length = 32)
+	private String agentType;
+
+	@Column(columnDefinition = "TEXT")
 	private String content;
+
+	@Column(columnDefinition = "jsonb", nullable = false)
+	@Builder.Default
+	private String meta = "{}";
 
 	@Column(name = "prompt_tokens")
 	private Integer promptTokens;
@@ -48,9 +56,6 @@ public class Message {
 	@Column(name = "completion_tokens")
 	private Integer completionTokens;
 
-	/**
-	 * AI 来源的模型供应商 ID
-	 */
 	@Column(name = "model_provider_id")
 	private Long modelProviderId;
 
@@ -59,5 +64,5 @@ public class Message {
 
 	@CreationTimestamp
 	@Column(name = "created_at", nullable = false, updatable = false)
-	private LocalDateTime createdAt;
+	private OffsetDateTime createdAt;
 }
