@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -141,7 +142,7 @@ public class DataInitializer implements CommandLineRunner {
 					.build();
 
 			SysRole adminRole = roleRepository.findByRoleCode("admin").orElseThrow();
-			admin.setRoles(Set.of(adminRole));
+			admin.setRoles(new HashSet<>(Set.of(adminRole)));
 
 			userRepository.save(admin);
 			log.info("创建管理员用户: admin");
@@ -184,7 +185,7 @@ public class DataInitializer implements CommandLineRunner {
 	private void assignMenusToRole(String roleCode, List<SysMenu> menus) {
 		roleRepository.findByRoleCode(roleCode).ifPresent(role -> {
 			if (role.getMenus().isEmpty()) {
-				role.setMenus(Set.copyOf(menus));
+				role.setMenus(new HashSet<>(menus));
 				roleRepository.save(role);
 				log.info("分配 {} 个菜单给角色: {}", menus.size(), roleCode);
 			}

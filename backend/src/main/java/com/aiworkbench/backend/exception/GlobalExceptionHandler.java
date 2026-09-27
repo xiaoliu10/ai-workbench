@@ -51,6 +51,13 @@ public class GlobalExceptionHandler {
 		return R.badRequest(e.getMessage());
 	}
 
+	@ExceptionHandler(IllegalArgumentException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public R<Void> handleIllegalArgumentException(IllegalArgumentException e) {
+		log.warn("业务校验失败: {}", e.getMessage());
+		return R.badRequest(e.getMessage());
+	}
+
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public R<Void> handleException(Exception e) {
