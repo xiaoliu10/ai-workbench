@@ -23,7 +23,7 @@ public interface SysMenuRepository extends JpaRepository<SysMenu, Long> {
 	/**
 	 * 查询指定角色关联的菜单（含按钮权限）
 	 */
-	@Query("SELECT m FROM SysMenu m JOIN m.roles r WHERE r.id IN :roleIds AND m.status = 1 ORDER BY m.sortOrder")
+	@Query("SELECT DISTINCT m FROM SysRole r JOIN r.menus m WHERE r.id IN :roleIds AND m.status = 1 ORDER BY m.sortOrder")
 	List<SysMenu> findByRoleIds(@Param("roleIds") List<Long> roleIds);
 
 	/**

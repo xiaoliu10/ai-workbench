@@ -1,7 +1,10 @@
 package com.aiworkbench.backend.service;
 
+import com.aiworkbench.backend.common.BizException;
 import com.aiworkbench.backend.dto.AuthDtos;
+import com.aiworkbench.backend.entity.SysRole;
 import com.aiworkbench.backend.entity.SysUser;
+import com.aiworkbench.backend.repository.SysRoleRepository;
 import com.aiworkbench.backend.repository.SysUserRepository;
 import com.aiworkbench.backend.security.CustomUserDetailsService;
 import com.aiworkbench.backend.security.JwtUtils;
@@ -10,13 +13,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
+	private static final String DEFAULT_ROLE_CODE = "user";
+
 	private final SysUserRepository sysUserRepository;
+	private final SysRoleRepository sysRoleRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtUtils jwtUtils;
 	private final CustomUserDetailsService userDetailsService;
@@ -65,6 +73,7 @@ public class AuthService {
 				.phone(request.phone())
 				.org(request.org())
 				.status(1)
+				.roles(new HashSet<>(Set.of(resolveDefaultRole())))
 				.build();
 
 		user = sysUserRepository.save(user);
@@ -78,5 +87,13 @@ public class AuthService {
 				user.getNickname(),
 				user.getId()
 		);
+	}
+
+	/**
+	 * 注册用户的默认角色，缺失时明确报错而不是静默零权限
+	 */
+	private SysRole resolveDefaultRole() {
+		return sysRoleRepository.findByRoleCode(DEFAULT_ROLE_CODE)
+				.orElseThrow(() -> new BizException("默认角色未初始化: " + DEFAULT_ROLE_CODE));
 	}
 }
