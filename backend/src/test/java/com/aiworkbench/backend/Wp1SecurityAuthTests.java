@@ -42,7 +42,7 @@ class Wp1SecurityAuthTests {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	private String loginAsAdmin() throws Exception {
-		MvcResult result = mockMvc.perform(post("/api/auth/login")
+		MvcResult result = mockMvc.perform(post("/api/v1/auth/login")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{"username": "admin", "password": "admin123"}
@@ -58,7 +58,7 @@ class Wp1SecurityAuthTests {
 
 	@Test
 	void anonymousAdminGetIsRejectedWith401Contract() throws Exception {
-		mockMvc.perform(get("/api/admin/overview"))
+		mockMvc.perform(get("/api/v1/admin/overview"))
 				.andExpect(status().isUnauthorized())
 				.andExpect(jsonPath("$.code").value(401))
 				.andExpect(jsonPath("$.message").isNotEmpty());
@@ -68,7 +68,7 @@ class Wp1SecurityAuthTests {
 	void authenticatedAdminGetReturnsOverview() throws Exception {
 		String token = loginAsAdmin();
 
-		mockMvc.perform(get("/api/admin/overview")
+		mockMvc.perform(get("/api/v1/admin/overview")
 						.header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.metrics").isArray());
@@ -78,7 +78,7 @@ class Wp1SecurityAuthTests {
 
 	@Test
 	void registerAssignsDefaultUserRoleAndTokenClaim() throws Exception {
-		MvcResult result = mockMvc.perform(post("/api/auth/register")
+		MvcResult result = mockMvc.perform(post("/api/v1/auth/register")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{"username": "wp1_newbie", "password": "secret123",
@@ -102,7 +102,7 @@ class Wp1SecurityAuthTests {
 
 	@Test
 	void loginWithWrongPasswordReturnsBadRequestWithBusinessMessage() throws Exception {
-		mockMvc.perform(post("/api/auth/login")
+		mockMvc.perform(post("/api/v1/auth/login")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{"username": "admin", "password": "wrong-password"}
@@ -114,7 +114,7 @@ class Wp1SecurityAuthTests {
 
 	@Test
 	void loginUnknownUserReturnsBadRequestNotSystemError() throws Exception {
-		mockMvc.perform(post("/api/auth/login")
+		mockMvc.perform(post("/api/v1/auth/login")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{"username": "nobody", "password": "whatever"}

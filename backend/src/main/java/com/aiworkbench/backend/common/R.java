@@ -19,15 +19,15 @@ public class R<T> {
 	private T data;
 
 	public static <T> R<T> ok() {
-		return new R<>(200, "success", null);
+		return new R<>(0, "success", null);
 	}
 
 	public static <T> R<T> ok(T data) {
-		return new R<>(200, "success", data);
+		return new R<>(0, "success", data);
 	}
 
 	public static <T> R<T> ok(String message, T data) {
-		return new R<>(200, message, data);
+		return new R<>(0, message, data);
 	}
 
 	public static <T> R<T> fail(String message) {

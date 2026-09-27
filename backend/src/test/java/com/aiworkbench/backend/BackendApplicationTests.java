@@ -31,7 +31,7 @@ class BackendApplicationTests {
 	 * WP1 修复后 /api/admin/** 全部要求认证，统一以 admin 账号登录取 token。
 	 */
 	private String adminToken() throws Exception {
-		var result = mockMvc.perform(post("/api/auth/login")
+		var result = mockMvc.perform(post("/api/v1/auth/login")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
 								{"username": "admin", "password": "admin123"}
@@ -48,7 +48,7 @@ class BackendApplicationTests {
 
 	@Test
 	void returnsAdminOverview() throws Exception {
-		mockMvc.perform(get("/api/admin/overview")
+		mockMvc.perform(get("/api/v1/admin/overview")
 						.header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken()))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.metrics", hasSize(4)))
@@ -57,7 +57,7 @@ class BackendApplicationTests {
 
 	@Test
 	void createsModelProvider() throws Exception {
-		mockMvc.perform(post("/api/admin/model-providers")
+		mockMvc.perform(post("/api/v1/admin/model-providers")
 						.header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
@@ -76,7 +76,7 @@ class BackendApplicationTests {
 
 	@Test
 	void updatesMenuAssignment() throws Exception {
-		mockMvc.perform(put("/api/admin/menu-assignments/user")
+		mockMvc.perform(put("/api/v1/admin/menu-assignments/user")
 						.header(HttpHeaders.AUTHORIZATION, "Bearer " + adminToken())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""

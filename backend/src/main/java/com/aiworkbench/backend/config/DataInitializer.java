@@ -167,7 +167,7 @@ public class DataInitializer implements CommandLineRunner {
 
 		// auditor: 系统管理(部分) + 调用审计 + 运维监控
 		List<String> auditorCodes = List.of(
-				"system", "model-provider", "user-manage", "user-manage", "role-manage", "menu-manage",
+				"system", "model-provider", "user-manage", "role-manage", "menu-manage",
 				"workspace", "api-audit",
 				"monitor", "model-health", "quota-dashboard", "alert"
 		);

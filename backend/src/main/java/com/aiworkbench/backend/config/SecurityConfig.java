@@ -28,7 +28,7 @@ public class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						// 公开接口
-						.requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+						.requestMatchers("/api/v1/auth/login", "/api/v1/auth/register").permitAll()
 						// Actuator
 						.requestMatchers("/actuator/health").permitAll()
 						// 其他请求（含 /api/admin/**）需要认证
