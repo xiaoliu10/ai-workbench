@@ -25,7 +25,16 @@ public class JwtUtils {
 			@Value("${jwt.secret}") String secret,
 			@Value("${jwt.expiration}") long expiration
 	) {
-		this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+		if (secret == null || secret.isBlank()) {
+			throw new IllegalStateException(
+					"JWT_SECRET 未配置：请通过环境变量 JWT_SECRET 提供至少 32 字节的签名密钥（禁止使用默认值）");
+		}
+		byte[] secretBytes = secret.getBytes(StandardCharsets.UTF_8);
+		if (secretBytes.length < 32) {
+			throw new IllegalStateException(
+					"JWT_SECRET 长度不足：HMAC-SHA256 要求至少 256 bit（32 字节），当前仅 " + secretBytes.length + " 字节");
+		}
+		this.key = Keys.hmacShaKeyFor(secretBytes);
 		this.expiration = expiration;
 	}
 

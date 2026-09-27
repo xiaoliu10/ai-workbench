@@ -3,7 +3,6 @@ package com.aiworkbench.backend.config;
 import com.aiworkbench.backend.security.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -29,11 +28,10 @@ public class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						// 公开接口
-						.requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
-						.requestMatchers(HttpMethod.GET, "/api/admin/**").permitAll()
+						.requestMatchers("/api/v1/auth/login", "/api/v1/auth/register").permitAll()
 						// Actuator
 						.requestMatchers("/actuator/health").permitAll()
-						// 其他请求需要认证
+						// 其他请求（含 /api/admin/**）需要认证
 						.anyRequest().authenticated()
 				)
 				.exceptionHandling(ex -> ex
