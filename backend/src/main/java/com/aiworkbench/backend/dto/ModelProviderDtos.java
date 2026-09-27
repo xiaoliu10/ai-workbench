@@ -2,7 +2,7 @@ package com.aiworkbench.backend.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public final class ModelProviderDtos {
 
@@ -17,8 +17,8 @@ public final class ModelProviderDtos {
 			String models,
 			String owner,
 			Integer quotaPercent,
-			LocalDateTime createdAt,
-			LocalDateTime updatedAt
+			OffsetDateTime createdAt,
+			OffsetDateTime updatedAt
 	) {}
 
 	public record CreateProviderRequest(

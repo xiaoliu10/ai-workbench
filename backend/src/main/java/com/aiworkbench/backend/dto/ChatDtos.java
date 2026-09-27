@@ -2,7 +2,7 @@ package com.aiworkbench.backend.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public final class ChatDtos {
@@ -15,8 +15,8 @@ public final class ChatDtos {
 			Long projectId,
 			Long modelProviderId,
 			String modelName,
-			LocalDateTime createdAt,
-			LocalDateTime updatedAt
+			OffsetDateTime createdAt,
+			OffsetDateTime updatedAt
 	) {}
 
 	public record CreateConversationRequest(
@@ -33,7 +33,7 @@ public final class ChatDtos {
 			Integer promptTokens,
 			Integer completionTokens,
 			String modelName,
-			LocalDateTime createdAt
+			OffsetDateTime createdAt
 	) {}
 
 	public record SendMessageRequest(

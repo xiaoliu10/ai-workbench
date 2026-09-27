@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -25,8 +25,8 @@ public final class UserDtos {
 			String org,
 			Integer status,
 			Set<RoleBrief> roles,
-			LocalDateTime createdAt,
-			LocalDateTime updatedAt
+			OffsetDateTime createdAt,
+			OffsetDateTime updatedAt
 	) {}
 
 	public record RoleBrief(

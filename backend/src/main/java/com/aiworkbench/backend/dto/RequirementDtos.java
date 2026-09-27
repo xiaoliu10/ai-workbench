@@ -3,7 +3,7 @@ package com.aiworkbench.backend.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public final class RequirementDtos {
 
@@ -21,8 +21,8 @@ public final class RequirementDtos {
 			String status,
 			Long creatorId,
 			Long assigneeId,
-			LocalDateTime createdAt,
-			LocalDateTime updatedAt
+			OffsetDateTime createdAt,
+			OffsetDateTime updatedAt
 	) {}
 
 	public record CreateRequirementRequest(

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Builder
@@ -27,35 +27,37 @@ public class Conversation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "user_id", nullable = false)
-	private Long userId;
+	@Column(name = "created_by", nullable = false)
+	private Long createdBy;
 
-	@Column(nullable = false, length = 300)
+	@Column(length = 256)
 	private String title;
 
-	/**
-	 * 关联项目 ID（可选，对话可能在项目上下文中进行）
-	 */
 	@Column(name = "project_id")
 	private Long projectId;
 
-	/**
-	 * 当前使用的模型供应商 ID
-	 */
 	@Column(name = "model_provider_id")
 	private Long modelProviderId;
 
-	/**
-	 * 当前使用的模型名称
-	 */
 	@Column(length = 100)
 	private String modelName;
 
+	@Column(nullable = false, length = 16)
+	@Builder.Default
+	private String status = "active";
+
+	@Column(columnDefinition = "jsonb", nullable = false)
+	@Builder.Default
+	private String context = "{}";
+
+	@Column(name = "last_message_at")
+	private OffsetDateTime lastMessageAt;
+
 	@CreationTimestamp
 	@Column(name = "created_at", nullable = false, updatable = false)
-	private LocalDateTime createdAt;
+	private OffsetDateTime createdAt;
 
 	@UpdateTimestamp
 	@Column(name = "updated_at", nullable = false)
-	private LocalDateTime updatedAt;
+	private OffsetDateTime updatedAt;
 }

@@ -2,7 +2,7 @@ package com.aiworkbench.backend.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -26,8 +26,8 @@ public final class MenuDtos {
 			Integer visible,
 			Integer status,
 			List<MenuTreeResponse> children,
-			LocalDateTime createdAt,
-			LocalDateTime updatedAt
+			OffsetDateTime createdAt,
+			OffsetDateTime updatedAt
 	) {}
 
 	public record CreateMenuRequest(
